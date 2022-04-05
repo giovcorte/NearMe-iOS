@@ -60,7 +60,7 @@ struct Detail : Codable {
         addressComponents = try values.decodeIfPresent([AddressComponent].self, forKey: .addressComponents)
         formattedAddress = try values.decodeIfPresent(String.self, forKey: .formattedAddress)
         formattedPhoneNumber = try values.decodeIfPresent(String.self, forKey: .formattedPhoneNumber)
-        geometry = try Geometry(from: decoder)
+        geometry = try values.decodeIfPresent(Geometry.self, forKey: .geometry)
         name = try values.decodeIfPresent(String.self, forKey: .name)
         openingHours = try OpeningHour(from: decoder)
         photos = try values.decodeIfPresent([Photo].self, forKey: .photos) ?? []
@@ -112,134 +112,136 @@ struct Detail : Codable {
 
 }
 
-struct Review : Codable {
-
-        let authorName : String?
-        let authorUrl : String?
-        let language : String?
-        let profilePhotoUrl : String?
-        let rating : Int?
-        let relativeTimeDescription : String?
-        let text : String?
-        let time : Int?
-
-        enum CodingKeys: String, CodingKey {
-            case authorName = "author_name"
-            case authorUrl = "author_url"
-            case language = "language"
-            case profilePhotoUrl = "profile_photo_url"
-            case rating = "rating"
-            case relativeTimeDescription = "relative_time_description"
-            case text = "text"
-            case time = "time"
-        }
+struct Review : Codable, Identifiable {
     
-        init(from decoder: Decoder) throws {
-            let values = try decoder.container(keyedBy: CodingKeys.self)
-            authorName = try values.decodeIfPresent(String.self, forKey: .authorName)
-            authorUrl = try values.decodeIfPresent(String.self, forKey: .authorUrl)
-            language = try values.decodeIfPresent(String.self, forKey: .language)
-            profilePhotoUrl = try values.decodeIfPresent(String.self, forKey: .profilePhotoUrl)
-            rating = try values.decodeIfPresent(Int.self, forKey: .rating)
-            relativeTimeDescription = try values.decodeIfPresent(String.self, forKey: .relativeTimeDescription)
-            text = try values.decodeIfPresent(String.self, forKey: .text)
-            time = try values.decodeIfPresent(Int.self, forKey: .time)
-        }
+    let id = UUID()
+
+    let authorName : String?
+    let authorUrl : String?
+    let language : String?
+    let profilePhotoUrl : String?
+    let rating : Int?
+    let relativeTimeDescription : String?
+    let text : String?
+    let time : Int?
+
+    enum CodingKeys: String, CodingKey {
+        case authorName = "author_name"
+        case authorUrl = "author_url"
+        case language = "language"
+        case profilePhotoUrl = "profile_photo_url"
+        case rating = "rating"
+        case relativeTimeDescription = "relative_time_description"
+        case text = "text"
+        case time = "time"
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        authorName = try values.decodeIfPresent(String.self, forKey: .authorName)
+        authorUrl = try values.decodeIfPresent(String.self, forKey: .authorUrl)
+        language = try values.decodeIfPresent(String.self, forKey: .language)
+        profilePhotoUrl = try values.decodeIfPresent(String.self, forKey: .profilePhotoUrl)
+        rating = try values.decodeIfPresent(Int.self, forKey: .rating)
+        relativeTimeDescription = try values.decodeIfPresent(String.self, forKey: .relativeTimeDescription)
+        text = try values.decodeIfPresent(String.self, forKey: .text)
+        time = try values.decodeIfPresent(Int.self, forKey: .time)
+    }
 
 }
 
 struct OpeningHour : Codable {
 
-        let openNow : Bool?
-        let periods : [Period]?
-        let weekdayText : [String]?
+    let openNow : Bool?
+    let periods : [Period]?
+    let weekdayText : [String]?
 
-        enum CodingKeys: String, CodingKey {
-            case openNow = "open_now"
-            case periods = "periods"
-            case weekdayText = "weekday_text"
-        }
-    
-        init(from decoder: Decoder) throws {
-            let values = try decoder.container(keyedBy: CodingKeys.self)
-            openNow = try values.decodeIfPresent(Bool.self, forKey: .openNow)
-            periods = try values.decodeIfPresent([Period].self, forKey: .periods)
-            weekdayText = try values.decodeIfPresent([String].self, forKey: .weekdayText)
-        }
+    enum CodingKeys: String, CodingKey {
+        case openNow = "open_now"
+        case periods = "periods"
+        case weekdayText = "weekday_text"
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        openNow = try values.decodeIfPresent(Bool.self, forKey: .openNow)
+        periods = try values.decodeIfPresent([Period].self, forKey: .periods)
+        weekdayText = try values.decodeIfPresent([String].self, forKey: .weekdayText)
+    }
 
 }
 
 struct Period : Codable {
 
-        let close : Close?
-        let open : Open?
+    let close : Close?
+    let open : Open?
 
-        enum CodingKeys: String, CodingKey {
-            case close = "close"
-            case open = "open"
-        }
-    
-        init(from decoder: Decoder) throws {
-            _ = try decoder.container(keyedBy: CodingKeys.self)
-            close = try Close(from: decoder)
-            open = try Open(from: decoder)
-        }
+    enum CodingKeys: String, CodingKey {
+        case close = "close"
+        case open = "open"
+    }
+
+    init(from decoder: Decoder) throws {
+        _ = try decoder.container(keyedBy: CodingKeys.self)
+        close = try Close(from: decoder)
+        open = try Open(from: decoder)
+    }
 
 }
 
 struct Open : Codable {
 
-        let day : Int?
-        let time : String?
+    let day : Int?
+    let time : String?
 
-        enum CodingKeys: String, CodingKey {
-            case day = "day"
-            case time = "time"
-        }
-    
-        init(from decoder: Decoder) throws {
-            let values = try decoder.container(keyedBy: CodingKeys.self)
-            day = try values.decodeIfPresent(Int.self, forKey: .day)
-            time = try values.decodeIfPresent(String.self, forKey: .time)
-        }
+    enum CodingKeys: String, CodingKey {
+        case day = "day"
+        case time = "time"
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        day = try values.decodeIfPresent(Int.self, forKey: .day)
+        time = try values.decodeIfPresent(String.self, forKey: .time)
+    }
 
 }
 
 struct Close : Codable {
 
-        let day : Int?
-        let time : String?
+    let day : Int?
+    let time : String?
 
-        enum CodingKeys: String, CodingKey {
-            case day = "day"
-            case time = "time"
-        }
-    
-        init(from decoder: Decoder) throws {
-            let values = try decoder.container(keyedBy: CodingKeys.self)
-            day = try values.decodeIfPresent(Int.self, forKey: .day)
-            time = try values.decodeIfPresent(String.self, forKey: .time)
-        }
+    enum CodingKeys: String, CodingKey {
+        case day = "day"
+        case time = "time"
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        day = try values.decodeIfPresent(Int.self, forKey: .day)
+        time = try values.decodeIfPresent(String.self, forKey: .time)
+    }
 
 }
 
 struct AddressComponent : Codable {
 
-        let longName : String?
-        let shortName : String?
-        let types : [String]?
+    let longName : String?
+    let shortName : String?
+    let types : [String]?
 
-        enum CodingKeys: String, CodingKey {
-            case longName = "long_name"
-            case shortName = "short_name"
-            case types = "types"
-        }
-    
-        init(from decoder: Decoder) throws {
-            let values = try decoder.container(keyedBy: CodingKeys.self)
-            longName = try values.decodeIfPresent(String.self, forKey: .longName)
-            shortName = try values.decodeIfPresent(String.self, forKey: .shortName)
-            types = try values.decodeIfPresent([String].self, forKey: .types)
-        }
+    enum CodingKeys: String, CodingKey {
+        case longName = "long_name"
+        case shortName = "short_name"
+        case types = "types"
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        longName = try values.decodeIfPresent(String.self, forKey: .longName)
+        shortName = try values.decodeIfPresent(String.self, forKey: .shortName)
+        types = try values.decodeIfPresent([String].self, forKey: .types)
+    }
 
 }

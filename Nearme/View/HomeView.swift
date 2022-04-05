@@ -20,8 +20,6 @@ struct HomeView: View {
             ForEach(viewModel.categories) { category in
                 NavigationLink(destination: NearbyView(title: category.title)) {
                     CategoryView(category: category)
-                        .padding(.all, 10)
-                    
                 }
             }
         }

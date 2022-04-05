@@ -39,6 +39,7 @@ class NetworkEngine {
             }
             
             DispatchQueue.main.async {
+                
                 if let responseObject = try? JSONDecoder().decode(T.self, from: data) {
                     completion(.success(responseObject))
                 } else {

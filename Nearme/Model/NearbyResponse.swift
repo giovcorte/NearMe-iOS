@@ -72,7 +72,7 @@ struct Place : Codable, Identifiable, Equatable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         businessStatus = try values.decodeIfPresent(String.self, forKey: .businessStatus) ?? "Closed"
-        geometry = try Geometry(from: decoder)
+        geometry = try values.decodeIfPresent(Geometry.self, forKey: .geometry)!
         icon = try values.decodeIfPresent(String.self, forKey: .icon) ?? ""
         iconBackgroundColor = try values.decodeIfPresent(String.self, forKey: .iconBackgroundColor)!
         iconMaskBaseUri = try values.decodeIfPresent(String.self, forKey: .iconMaskBaseUri)!
@@ -176,9 +176,9 @@ struct Geometry : Codable {
     }
     
     init(from decoder: Decoder) throws {
-        _ = try decoder.container(keyedBy: CodingKeys.self)
-        location = try Location(from: decoder)
-        viewport = try Viewport(from: decoder)
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        location = try values.decodeIfPresent(Location.self, forKey: .location)
+        viewport = try values.decodeIfPresent(Viewport.self, forKey: .viewport)
     }
     
 }

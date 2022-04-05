@@ -69,39 +69,3 @@ struct CenterModifier: ViewModifier {
         }
     }
 }
-
-struct CardModifier: ViewModifier {
-    
-    @State var pressed: Bool = false
-    var clickable: Bool
-    var action: () -> Void
-    
-    public init(clickable: Bool = false, action: @escaping () -> Void = {}) {
-        self.clickable = clickable
-        self.action = action
-    }
-    
-    func body(content: Content) -> some View {
-         content.background(Color.white)
-            .cornerRadius(5)
-            .shadow(color: Color.black.opacity(!canAnimate() ? 0.1 : 0.0), radius: 1, x: 5, y: 5)
-            .overlay(Color("listBackground")
-                        .opacity(canAnimate() ? 0.2 : 0.0)
-                        .cornerRadius(5))
-            .offset(x: 0, y: canAnimate() ? 5 : 0)
-            .onTapGesture {
-                action()
-            }
-            .onLongPressGesture(minimumDuration: 1.0, pressing: { (isPressing) in
-                withAnimation {
-                    pressed = isPressing
-                }
-              }, perform: {
-                action()
-              })
-    }
-    
-    func canAnimate() -> Bool {
-        return pressed && clickable
-    }
-}

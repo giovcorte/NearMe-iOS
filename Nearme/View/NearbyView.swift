@@ -24,17 +24,15 @@ struct NearbyView: View {
             ForEach(viewModel.places) { place in
                 NavigationLink(destination: DetailView(title: place.name, id: place.placeId)) {
                     PlaceView(url: place.thumbnail(), name: place.name, address: place.vicinity, open: place.open())
-                        .padding(.all, 10)
                         .onAppear(perform: {
                             viewModel.loadMorePlaces(currentItem: place)
                         })
-                    }
+                }
             }
             if $viewModel.loading.wrappedValue {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
                     .modifier(CenterModifier())
-                    .padding(.all, 30)
             }
         }
         .onAppear(perform: {
@@ -59,14 +57,20 @@ struct PlaceView: View {
                 WebImage(url: URL(string: url!))
                     .resizable()
                     .frame(width: 100, height: 100)
+                /*AsyncImage(url: URL(string: url!)!, placeholder: {Text("...")}, image: {
+                    Image(uiImage: $0)
+                        .resizable()
+                }).frame(width: 100, height: 100)*/
             }
             VStack(alignment: .leading) {
                 Text(name)
                     .font(.system(size: 18.0))
+                    .bold()
                 Text(address)
                     .font(.system(size: 14.0))
                 Text(open)
                     .font(.system(size: 14.0))
+                Spacer()
             }
             Spacer()
         }
