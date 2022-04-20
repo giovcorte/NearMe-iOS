@@ -15,7 +15,7 @@ struct NearmeApp: App {
             NavigationView {
                 HomeView()
             }
-            .navigationViewStyle(StackNavigationViewStyle())
+            .navigationViewStyle(DefaultNavigationViewStyle())
         }
     }
 }

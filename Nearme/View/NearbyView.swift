@@ -55,11 +55,17 @@ struct PlaceView: View {
         HStack {
             if url != nil {
                 WebImage(url: URL(string: url!))
+                    .placeholder {
+                        ProgressView()
+                    }
                     .resizable()
                     .frame(width: 100, height: 100)
-                /*AsyncImage(url: URL(string: url!)!, placeholder: {Text("...")}, image: {
-                    Image(uiImage: $0)
-                        .resizable()
+                /*AsyncImage(url: URL(string: url!)!,
+                           placeholder: {
+                            LoadableView()
+                           }, image: {
+                            Image(uiImage: $0)
+                                .resizable()
                 }).frame(width: 100, height: 100)*/
             }
             VStack(alignment: .leading) {

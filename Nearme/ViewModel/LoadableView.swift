@@ -9,7 +9,8 @@ import SwiftUI
 
 struct LoadableView: View {
     var body: some View {
-        Text("Hello, World!")
+        ProgressView()
+            .modifier(CenterModifier())
     }
 }
 

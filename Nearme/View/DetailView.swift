@@ -46,10 +46,10 @@ struct DetailView: View {
                         if (detail.photos.count > 0) {
                             PagerView(pageCount: detail.photos.count, currentIndex: $currentPage, margin: 10, content: {
                                 ForEach(detail.photoUrls()) { photo in
-                                    /*AsyncImage(url: URL(string: photo)!, placeholder: {Text("...")}, image: {
-                                                Image(uiImage: $0).resizable()
-                                    })*/
                                     WebImage(url: URL(string: photo)!)
+                                        .placeholder {
+                                            ProgressView()
+                                        }
                                         .resizable()
                                 }
                             })

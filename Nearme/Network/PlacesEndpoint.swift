@@ -38,13 +38,13 @@ enum PlacesEndpoint: Endpoint {
             return [URLQueryItem(name: "radius", value: String(radius)),
                     URLQueryItem(name: "location", value: String(latitude) + "," + String(longitude)),
                     URLQueryItem(name: "keyword", value: query),
-                    URLQueryItem(name: "key", value: "AIzaSyA6H30gsKS5UGyR30_CxE1TygjPup6wyOM"),
+                    URLQueryItem(name: "key", value: Values.API_KEY),
                     URLQueryItem(name: "pagetoken", value: pageToken)
             ]
         case .placeDetails(let id):
             return [URLQueryItem(name: "place_id", value: id),
                     URLQueryItem(name: "fields", value: "address_component,name,rating,formatted_phone_number,photo,opening_hours,formatted_address,website,geometry,place_id,price_level,reviews"),
-                    URLQueryItem(name: "key", value: "AIzaSyA6H30gsKS5UGyR30_CxE1TygjPup6wyOM")]
+                    URLQueryItem(name: "key", value: Values.API_KEY)]
         }
     }
         

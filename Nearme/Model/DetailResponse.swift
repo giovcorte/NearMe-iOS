@@ -90,7 +90,7 @@ struct Detail : Codable {
         var result: [String] = [String]()
         for photo in photos {
             let photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=" + String(photo.width ?? 256)
-                + "&photoreference=" + String(photo.photoReference ?? "") + "&key=AIzaSyA6H30gsKS5UGyR30_CxE1TygjPup6wyOM"
+                + "&photoreference=" + String(photo.photoReference ?? "") + "&key=" + Values.API_KEY
             result.append(photoUrl)
         }
         return result
