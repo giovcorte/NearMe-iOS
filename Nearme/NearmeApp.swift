@@ -18,4 +18,18 @@ struct NearmeApp: App {
             .navigationViewStyle(DefaultNavigationViewStyle())
         }
     }
+    
+    init() {
+      let coloredAppearance = UINavigationBarAppearance()
+      coloredAppearance.configureWithOpaqueBackground()
+        coloredAppearance.backgroundColor = UIColor(Color("mainColor"))
+      coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+      coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+      
+      UINavigationBar.appearance().standardAppearance = coloredAppearance
+      UINavigationBar.appearance().compactAppearance = coloredAppearance
+      UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
+      
+      UINavigationBar.appearance().tintColor = .white
+    }
 }

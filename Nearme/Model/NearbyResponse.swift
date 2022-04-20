@@ -46,7 +46,7 @@ struct Place : Codable, Identifiable, Equatable {
     let reference : String
     let scope : String
     let types : [String]
-    let userRatingsTotal : Int
+    let userRatingsTotal : Int?
     let vicinity : String
     
     enum CodingKeys: String, CodingKey {
@@ -86,7 +86,7 @@ struct Place : Codable, Identifiable, Equatable {
         reference = try values.decodeIfPresent(String.self, forKey: .reference)!
         scope = try values.decodeIfPresent(String.self, forKey: .scope)!
         types = try values.decodeIfPresent([String].self, forKey: .types)!
-        userRatingsTotal = try values.decodeIfPresent(Int.self, forKey: .userRatingsTotal)!
+        userRatingsTotal = try values.decodeIfPresent(Int.self, forKey: .userRatingsTotal)
         vicinity = try values.decodeIfPresent(String.self, forKey: .vicinity)!
     }
     

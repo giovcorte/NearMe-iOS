@@ -72,6 +72,7 @@ struct PlaceView: View {
                 Text(name)
                     .font(.system(size: 18.0))
                     .bold()
+                    .foregroundColor(Color("mainColor"))
                 Text(address)
                     .font(.system(size: 14.0))
                 Text(open)
