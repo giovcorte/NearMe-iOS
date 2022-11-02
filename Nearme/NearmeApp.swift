@@ -12,24 +12,30 @@ struct NearmeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationView {
-                HomeView()
+            if #available(iOS 16.0, *) {
+                NavigationStack {
+                    HomeView()
+                }
+                .accentColor(Color.white)
+            } else {
+                NavigationView {
+                    HomeView()
+                }
             }
-            .navigationViewStyle(DefaultNavigationViewStyle())
         }
     }
     
     init() {
-      let coloredAppearance = UINavigationBarAppearance()
-      coloredAppearance.configureWithOpaqueBackground()
+        let coloredAppearance = UINavigationBarAppearance()
+        coloredAppearance.configureWithOpaqueBackground()
         coloredAppearance.backgroundColor = UIColor(Color("mainColor"))
-      coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-      coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
       
-      UINavigationBar.appearance().standardAppearance = coloredAppearance
-      UINavigationBar.appearance().compactAppearance = coloredAppearance
-      UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
+        UINavigationBar.appearance().standardAppearance = coloredAppearance
+        UINavigationBar.appearance().compactAppearance = coloredAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
       
-      UINavigationBar.appearance().tintColor = .white
+        UINavigationBar.appearance().tintColor = .white
     }
 }

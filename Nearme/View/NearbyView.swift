@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SDWebImageSwiftUI
 
 struct NearbyView: View {
     
@@ -30,9 +29,12 @@ struct NearbyView: View {
                 }
             }
             if $viewModel.loading.wrappedValue {
+                LoaderView()
+                /*
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
                     .modifier(CenterModifier())
+                 */
             }
         }
         .onAppear(perform: {
@@ -41,6 +43,7 @@ struct NearbyView: View {
             }
         })
         .navigationBarTitle(self.title)
+        .accentColor(.white)
     }
 }
 
@@ -54,19 +57,13 @@ struct PlaceView: View {
     var body: some View {
         HStack {
             if url != nil {
-                WebImage(url: URL(string: url!))
-                    .placeholder {
-                        ProgressView()
-                    }
-                    .resizable()
-                    .frame(width: 100, height: 100)
-                /*AsyncImage(url: URL(string: url!)!,
+                AsyncImage(url: URL(string: url!)!,
                            placeholder: {
                             LoadableView()
                            }, image: {
                             Image(uiImage: $0)
                                 .resizable()
-                }).frame(width: 100, height: 100)*/
+                }).frame(width: 100, height: 100)
             }
             VStack(alignment: .leading) {
                 Text(name)
@@ -81,5 +78,13 @@ struct PlaceView: View {
             }
             Spacer()
         }
+    }
+}
+
+struct LoaderView: View {
+    var body: some View {
+        Text("Loading..")
+            .foregroundColor(.green)
+            .padding()
     }
 }

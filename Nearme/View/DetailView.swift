@@ -7,7 +7,6 @@
 
 import SwiftUI
 import MapKit
-import SDWebImageSwiftUI
 
 struct DetailView: View {
     
@@ -46,11 +45,13 @@ struct DetailView: View {
                         if (detail.photos.count > 0) {
                             PagerView(pageCount: detail.photos.count, currentIndex: $currentPage, margin: 10, content: {
                                 ForEach(detail.photoUrls()) { photo in
-                                    WebImage(url: URL(string: photo)!)
-                                        .placeholder {
-                                            ProgressView()
-                                        }
-                                        .resizable()
+                                    AsyncImage(url: URL(string: photo)!,
+                                               placeholder: {
+                                                LoadableView()
+                                               }, image: {
+                                                Image(uiImage: $0)
+                                                    .resizable()
+                                    })//.frame(width: 100, height: 100)
                                 }
                             })
                             .frame(height: 300)
@@ -69,6 +70,7 @@ struct DetailView: View {
                     }
                 }
                 .navigationBarTitle(self.title)
+                .accentColor(.white)
         }
     }
 }

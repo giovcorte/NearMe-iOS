@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HomeCategory: Identifiable {
+struct HomeCategory: Identifiable, Hashable {
     
     let id: String
     var image: String

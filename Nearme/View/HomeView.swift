@@ -16,11 +16,9 @@ struct HomeView: View {
     }
     
     var body: some View {
-        List {
-            ForEach(viewModel.categories) { category in
-                NavigationLink(destination: NearbyView(title: category.title)) {
-                    CategoryView(category: category)
-                }
+        List(viewModel.categories) { category in
+            NavigationLink(destination: NearbyView(title: category.title)) {
+                CategoryView(category: category)
             }
         }
         .navigationBarTitle("NearMe")
